@@ -1,0 +1,4 @@
+requests~=2.22.0
+objprint~=0.2.0
+lxml~=4.6.4
+PyMySQL~=1.0.2
