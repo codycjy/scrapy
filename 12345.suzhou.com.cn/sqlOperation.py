@@ -1,6 +1,5 @@
 import queue
 import time
-
 import pymysql
 
 
@@ -21,7 +20,7 @@ class sqlOperation:
         self.dropTable()
         self.createTable()
     def select(self):
-        self.cursor.execute("SELECT id FROM `suzhou_com_cn`")
+        self.cursor.execute("SELECT * FROM `suzhou_com_cn`")
         data = self.cursor.fetchall()
         return data
     def insert(self, qu):
@@ -31,7 +30,7 @@ class sqlOperation:
                 self.dataDic = qu.get()
                 try:
                     InsertSql = """
-                INSERT INTO     `suzhou_com_cn`
+                INSERT INTO `suzhou_com_cn`
                 (
                 
                     `title`,
@@ -72,10 +71,11 @@ class sqlOperation:
             cnt+=1
 if __name__=="__main__":
     s=sqlOperation()
-    data=s.select()
-    with open('final.csv','w') as f:
-        for i in data:
-            i=list(map(str,i))
-            f.write(','.join(i)+'\n')
+    s.resart()
+    # data=s.select()
+    # with open('final.csv','w') as f:
+    #     for i in data:
+    #         i=list(map(str,i))
+    #         f.write(','.join(i)+'\n')
 
 

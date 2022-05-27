@@ -75,7 +75,7 @@ class scrapy:
                 # print('start')
                 self.info = queueTitle.get()
                 self.content_url = self.info['content_url']
-                self.title = self.info['title']
+                self.title = self.info['title'].replace(',','，')
                 self.content_url = rooturl + self.content_url
                 self.reqContent = requests.get(self.content_url, headers=headers)
                 self.htmlContent = etree.HTML(self.reqContent.text)
@@ -83,8 +83,7 @@ class scrapy:
                 self.content = self.htmlContent.xpath('.//td[@class="t_f"]/text()')
                 self.content = list(map(str.strip, self.content))
                 self.content = ' '.join(self.content)
-                self.content = self.content.replace('\n', '')
-                self.content = self.content.replace(',', '，')
+                self.content = self.content.replace('\n', '').replace(',', '，')
                 if self.content == ' ': continue
                 self.time = self.htmlContent.xpath('//td[2]/div[1]/div[2]/div[2]/em/text()')
                 self.officialReply = []
@@ -132,23 +131,8 @@ class scrapy:
             sleep(1)
             cnt+=1
 
-    def toFile(self):
-        while not queueContent.empty():
-            result = queueContent.get()
-            frep = result['firstReply'] if result['firstReply'] else [' ', ' ', ' ']
-            srep = result['secondReply'] if result['secondReply'] else [' ', ' ', ' ']
-            with open('example.csv', 'a', encoding='utf-8') as f:
-                f.write(f'{result["title"]},{result["content"]},{result["time"]},'
-                        f'{frep[0]},{frep[1]},{frep[2]},{srep[0]},{srep[1]},{srep[2]},'
-                        f'{result["position"]},{result["view"]},{result["reply"]}\n')
-
 
 if __name__ == '__main__':
     s = scrapy()
-    s.getIndex()
-    s.getContent()
-    # s.toFile()
     sql=sqlOperation()
-    sql.dropTable()
-    sql.createTable()
 

@@ -58,11 +58,12 @@ def main():
 def toFile():
     s=sqlOperation()
     data=s.select()
-    with open('final.csv','w') as f:
+    with open('final_2.csv','w') as f:
         for i in data:
             i=list(map(str,i))
             f.write(','.join(i)+'\n')
 if __name__ == '__main__':
-    pass
-    main()
+    # main()
+    toFile()
+    # pass
 
